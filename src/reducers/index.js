@@ -3,11 +3,16 @@ import {
   GET_CURRENT_POSITION,
   GET_CURRENT_POSITION_BLOCK,
   GET_CURRENT_WEATHER,
+  GET_CURRENT_WEATHER_BY_CITY_ID,
 } from '../actions';
 
 const initialState = {
   lat: -34.6131516,
   lon: -58.3772316,
+};
+
+const initialStateBlock = {
+  err: null,
 };
 
 const getCurrentPosition = (state = initialState, action) => {
@@ -23,10 +28,10 @@ const getCurrentPosition = (state = initialState, action) => {
   }
 };
 
-const getCurrentPositionBlock = (state = false, action) => {
+const getCurrentPositionBlock = (state = initialStateBlock, action) => {
   switch (action.type) {
     case GET_CURRENT_POSITION_BLOCK:
-      return { ...state, payload: true };
+      return { ...state, err: true };
     default:
       return state;
   }
@@ -35,7 +40,16 @@ const getCurrentPositionBlock = (state = false, action) => {
 const getCurrentWeather = (state = null, action) => {
   switch (action.type) {
     case GET_CURRENT_WEATHER:
-      return { ...state };
+      return { ...state, weather: action.payload };
+    default:
+      return state;
+  }
+};
+
+const getCurrentWeatherByCity = (state = null, action) => {
+  switch (action.type) {
+    case GET_CURRENT_WEATHER_BY_CITY_ID:
+      return { ...state, weather: action.payload };
     default:
       return state;
   }
@@ -45,4 +59,5 @@ export default combineReducers({
   getPosition: getCurrentPosition,
   getPositionBlock: getCurrentPositionBlock,
   getWeather: getCurrentWeather,
+  getWeatherByCity: getCurrentWeatherByCity,
 });
