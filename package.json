@@ -9,6 +9,7 @@
     "axios": "^0.19.2",
     "kelvin-to-celsius": "^1.1.0",
     "react": "^16.13.1",
+    "react-autosuggest": "^10.0.2",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",

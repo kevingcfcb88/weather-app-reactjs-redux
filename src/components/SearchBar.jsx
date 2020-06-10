@@ -1,10 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { getCurrentWeatherByCity } from '../actions';
 import jsonFile from '../api/city.list.json';
+import CitiesList from './CitiesList';
 
 class SearchBar extends React.Component {
-  state = { data: [], filteredResults: [], term: '' };
+  state = { data: [], filteredResults: [], term: '', cityResults: [] };
 
   componentDidMount() {
     this.filterCities();
@@ -12,7 +11,7 @@ class SearchBar extends React.Component {
 
   filterCities() {
     const jsonFileResponse = jsonFile.map(async (v) => {
-      return { key: v.id, value: v.name };
+      return { key: v.id, value: v.name, country: v.country };
     });
 
     Promise.all(jsonFileResponse).then((completed) => {
@@ -20,22 +19,13 @@ class SearchBar extends React.Component {
     });
   }
 
-  onSearchChange = (e) => {
-    console.log(this.state.term);
-
-    const newCities = this.state.data.filter(
-      (v) => v.value.toLowerCase() === this.state.term.toLowerCase()
-    );
-    this.setState({ filteredResults: newCities });
-  };
-
   onFormSubmit = (e) => {
     e.preventDefault();
     const found = this.state.data.filter(
       (v) => v.value.toLowerCase() === this.state.term.toLowerCase()
     );
     if (found.length > 0) {
-      this.props.getWeatherByCity(found[0].key);
+      this.setState({ cityResults: found });
     } else {
       console.log('Nothing found');
     }
@@ -55,6 +45,7 @@ class SearchBar extends React.Component {
                 onChange={(e) => this.setState({ term: e.target.value })}
               />
             </form>
+            <CitiesList cities={this.state.cityResults} />
           </div>
         </div>
       </div>
@@ -62,10 +53,4 @@ class SearchBar extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getWeatherByCity: (id) => dispatch(getCurrentWeatherByCity(id)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(SearchBar);
+export default SearchBar;
