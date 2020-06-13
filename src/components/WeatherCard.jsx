@@ -1,7 +1,9 @@
 import React from 'react';
 import kelvinToCelsius from 'kelvin-to-celsius';
+import { Link } from 'react-router-dom';
 
 const WeatherCard = ({ currentWeather }) => {
+  console.log(currentWeather);
   return (
     <div className="ui grid">
       <div className="sixteen wide column">
@@ -43,6 +45,17 @@ const WeatherCard = ({ currentWeather }) => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="sixteen wide column">
+        <div className="ui two column centered grid">
+          <Link
+            to={`/forecast/${currentWeather.id}`}
+            exact="true"
+            className="item"
+          >
+            See 5 days Forecast
+          </Link>
         </div>
       </div>
     </div>

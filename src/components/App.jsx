@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { getCurrentPosition, getCurrentWeather } from '../actions';
 import WeatherCard from './WeatherCard';
 import SearchBar from './SearchBar';
+import Forecast from './Forecast';
 
 class App extends React.Component {
   componentDidMount() {
@@ -28,7 +30,14 @@ class App extends React.Component {
   }
 
   render() {
-    return <div>{this.getPositionToRender()}</div>;
+    return (
+      <BrowserRouter>
+        <Route path="/" exact>
+          <div>{this.getPositionToRender()}</div>;
+        </Route>
+        <Route path="/forecast/:cityId" exact component={Forecast} />
+      </BrowserRouter>
+    );
   }
 }
 

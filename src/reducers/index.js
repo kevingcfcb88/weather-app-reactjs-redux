@@ -4,6 +4,7 @@ import {
   GET_CURRENT_POSITION_BLOCK,
   GET_CURRENT_WEATHER,
   GET_CURRENT_WEATHER_BY_CITY_ID,
+  GET_FIVE_DAY_FORECAST,
 } from '../actions';
 
 const initialState = {
@@ -55,9 +56,19 @@ const getCurrentWeatherByCity = (state = null, action) => {
   }
 };
 
+const getFiveDayForecast = (state = null, action) => {
+  switch (action.type) {
+    case GET_FIVE_DAY_FORECAST:
+      return { ...state, forecast: action.payload };
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   getPosition: getCurrentPosition,
   getPositionBlock: getCurrentPositionBlock,
   getWeather: getCurrentWeather,
   getWeatherByCity: getCurrentWeatherByCity,
+  getForecast: getFiveDayForecast,
 });
